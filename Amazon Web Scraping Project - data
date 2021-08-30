@@ -1,0 +1,138 @@
+# import libraries
+
+from bs4 import BeautifulSoup
+import requests
+import smtplib
+import time
+import datetime
+
+# Connect to website
+
+URL = 'https://www.amazon.com.au/LeetGroupAU-Show-Me-Data-Scientist/dp/B09BF5LTZ1/ref=sr_1_2?dchild=1&keywords=data+analyst+shirt&qid=1630235554&sr=8-2'
+
+
+headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36", "Accept-Encoding":"gzip, deflate", "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT":"1","Connection":"close", "Upgrade-Insecure-Requests":"1"}
+
+page = requests.get(URL, headers=headers)
+
+soup1 = BeautifulSoup(page.content, "html.parser")
+
+soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
+# makes this look better
+
+title = soup2.find(id='productTitle').get_text()
+
+price = soup2.find(id='priceblock_ourprice').get_text()
+
+ratings = soup2.find(id='priceblock_ourprice').get_text()
+
+
+print(title)
+print(price)
+
+
+price = price.strip()[1:]
+title = title.strip()
+
+print(title)
+print(price)
+
+
+
+import datetime 
+
+today = datetime.date.today()
+
+print(today)
+
+
+
+import csv
+
+header = ['Title', 'Price', 'Date']
+data = [title,price, today]
+ 
+
+#with open('AmazonWebScraperData.csv', 'w', newline = '', encoding = 'UTF8') as f:
+#    writer = csv.writer(f)
+#    writer.writerow(header)
+#    writer.writerow(data)
+
+
+
+import pandas as pd
+
+df = pd.read_csv(r'C:\Users\jd100\AmazonWebScraperData.csv')
+            
+print(df)
+
+
+
+#Now we are appending data to the csv
+
+with open('AmazonWebScraperData.csv', 'a+', newline = '', encoding = 'UTF8') as f:
+    writer = csv.writer(f)
+    writer.writerow(data)
+    
+    
+    
+   
+ 
+def check_price():
+    URL = 'https://www.amazon.com.au/LeetGroupAU-Show-Me-Data-Scientist/dp/B09BF5LTZ1/ref=sr_1_2?dchild=1&keywords=data+analyst+shirt&qid=1630235554&sr=8-2'
+
+
+    headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36", "Accept-Encoding":"gzip, deflate", "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT":"1","Connection":"close", "Upgrade-Insecure-Requests":"1"}
+
+    page = requests.get(URL, headers=headers)
+
+    soup1 = BeautifulSoup(page.content, "html.parser")
+
+    soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
+
+    title = soup2.find(id='productTitle').get_text()
+
+    price = soup2.find(id='priceblock_ourprice').get_text()
+    
+    print(title)
+    print(price)
+    
+    import datetime 
+
+    today = datetime.date.today()
+
+    print(today)
+    
+    import csv
+
+    header = ['Title', 'Price', 'Date']
+    data = [title,price, today]
+ 
+    with open('AmazonWebScraperData.csv', 'a+', newline = '', encoding = 'UTF8') as f:
+        writer = csv.writer(f)
+        writer.writerow(data)
+
+   
+   
+while(True):
+    check_price()
+    time.sleep(86400)
+    
+    
+    
+
+import pandas as pd
+
+df = pd.read_csv(r'C:\Users\jd100\AmazonWebScraperData.csv')
+            
+print(df)
+    
+
+
+
+
+
+
+
+
+
